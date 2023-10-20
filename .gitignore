@@ -1,0 +1,123 @@
+# Carpeta de compilación
+bin/
+obj/
+
+# Archivos temporales
+*.user
+*.suo
+*.bak
+*.vscode
+*.vscode-test
+
+# Archivos de dependencias de .NET
+project.lock.json
+project.fragment.lock.json
+
+# Carpeta de caché de NuGet
+packages/
+
+# Carpeta de salida de Visual Studio
+.vscode/
+
+# Carpeta de salida de Rider
+.idea/
+
+# Archivos de registro y datos de usuario
+*.log
+*.userprefs
+
+# Carpeta de caché de resharper
+_ReSharper.*
+
+# Archivos de caché de Rider
+.idea
+
+# Archivo de configuración de Rider
+.idea/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/inspectionProfiles
+
+# Archivo de configuración de Rider
+.idea
+.idea/EditorConfig.xml
+
+# Archivo de configuración de usuario de Rider
+.idea
+.idea/userProfile.xml
+.idea/teamcity-shared.xml
+
+# Carpetas y archivos específicos de Visual Studio
+.vs/
+
+# Carpeta de caché de Visual Studio
+.vs2019/
+.vscode/
+
+# Carpeta de salida de Rider
+.idea/
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Archivos de usuario de Rider
+.idea/.name
+.idea/misc.xml
+.idea/vcs.xml
+
+# Carpeta de resharper
+_ReSharper.*
+.idea/resharper/
+.idea/inspectionProfiles
+
+# Carpeta de salida de Rider
+.idea/
+.idea/codeStyles/
+
+# Carpetas y archivos de caché generados por Rider
+.idea/
+.idea/codeStyles/
+
+# Archivo de configuración de Rider
+.idea/
+.idea/EditorConfig.xml
+
+# Archivo de configuración de usuario de Rider
+.idea/
+.idea/userProfile.xml
+.idea/inspectionProfiles
+
+# Carpeta de caché de resharper
+.idea/
+.idea/resharper/
+
+# Carpeta de archivos temporales
+.idea/
+
+# Carpeta de caché de Visual Studio
+.vscode/
+.vs2019/
+.vscode-test/
+.vscode/
+.vs
+
+# Carpeta de salida de Rider
+.idea/
+.idea/vcs.xml
+.idea/userDictionary.xml
+.idea/usage.statistics.xml
+
+# Carpeta de caché de Rider
+.idea/
+.idea/codeStyles/
+.idea/inspectionProfiles
+.idea/resharper/
+.idea/webServerCertificate.pem
+.idea/annotations.xml
+.idea/Rider.xml
+.idea/inspectionProfiles/
+.idea/.name
+
+# Archivos de registro y datos de usuario
+*.log
+*.userprefs

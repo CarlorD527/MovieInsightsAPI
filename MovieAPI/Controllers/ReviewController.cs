@@ -23,9 +23,11 @@ namespace ReviewAPI.Controllers
         public async Task<ActionResult> listReview()
         {
 
-            var response = await _reviewApplication.GetAllReview();
+                var response = await _reviewApplication.GetAllReview();
 
-            return Ok(response);
+                return Ok(response);
+         
+
         }
 
         [HttpGet("{id}")]

@@ -16,10 +16,10 @@ namespace Domain.Models
         public string? Id { get; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId MovieId { get; set; }
+        public string? MovieId { get ; set; }
 
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId UserId { get; set; }
+        public string? UserId { get; set; }
 
         [BsonElement("reviewContent")]
         public string? ReviewContent { get; set;}

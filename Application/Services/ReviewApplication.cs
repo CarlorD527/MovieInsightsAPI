@@ -7,9 +7,14 @@ using Domain.Models;
 using Infrastructure.Interfaces;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.Extensions.Options;
 using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using System.Net;
 using System.Security.Cryptography;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Xml;
 
 namespace Application.Services
 {
@@ -73,36 +78,21 @@ namespace Application.Services
             throw new NotImplementedException();
         }
 
-        public async Task<BaseResponse<List<Review>>> GetAllReview()
+        public async Task<string> GetAllReview()
         {
-            var response = new BaseResponse<List<Review>>();
-
-            try
+            var options = new JsonSerializerOptions()
             {
-                var reviews = await _reviewCollection.GetAllReviews();
+                WriteIndented = true
+            };
+            //var response = new BaseResponse<List<object>>();
+            var  reviews = await _reviewCollection.GetAllReviews();
 
-                if (reviews is not null)
-                {
-                    response.IsSuccess = true;
-                    response.Data = reviews;
-                    response.StatusCode = HttpStatusCode.OK;
-                }
-                else
-                {
-                    response.IsSuccess = false;
-                    response.Data = null;
-                    response.StatusCode = HttpStatusCode.InternalServerError;
-                    response.ApplicationErrors = new List<string> { "No se pudieron recuperar los reviews." };
-                }
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.StatusCode = HttpStatusCode.InternalServerError;
-                response.ApplicationErrors = new List<string> { "Error de la aplicación: " + ex.Message };
-            }
+            var reviewList = reviews.ToJson();
 
-            return response;
+            var jsonElement = JsonSerializer.Deserialize<JsonElement>(reviewList);
+
+            return JsonSerializer.Serialize(jsonElement, options);
+
         }
 
         public Task<BaseResponse<List<Review>>> GetByIdReview(string id)

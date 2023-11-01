@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Infrastructure.Interfaces
    public interface IReviewCollection
     {
 
-        Task<List<Review>> GetAllReviews();
+        Task<object> GetAllReviews();
 
         Task<List<Review>> GetReviewById(string id);
 

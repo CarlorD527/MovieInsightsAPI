@@ -17,7 +17,11 @@ namespace Infrastructure.Repositories
 
         internal MovieDatabaseSettings _config = new MovieDatabaseSettings();
 
-        private IMongoCollection<Review> Collection;
+        private IMongoCollection<BsonDocument> Collection;
+
+        private IMongoCollection<BsonDocument> moviesCollection;
+
+        private IMongoCollection<BsonDocument> usersCollection;
 
         public ReviewCollection(IOptions<MovieDatabaseSettings> settings)
         {
@@ -26,76 +30,65 @@ namespace Infrastructure.Repositories
             var mongoClient = new MongoClient(settings.Value.ConnectionString);
 
             var mongoDb = mongoClient.GetDatabase(settings.Value.DatabaseName);
-            var peliculasCollection = mongoDb.GetCollection<Movie>("Movie");
-            var usuariosCollection = mongoDb.GetCollection<User>("Users");
 
+            moviesCollection = mongoDb.GetCollection<BsonDocument>("Movie");
+            usersCollection = mongoDb.GetCollection<BsonDocument>("Users");
 
-            Collection = mongoDb.GetCollection<Review>("Review");
+            Collection = mongoDb.GetCollection<BsonDocument>("Review");
+
         }
 
-        public async Task<bool> DeleteReview(string id)
+        public Task<bool> DeleteReview(string id)
         {
-            try
-            {
-                var filter = Builders<Review>.Filter.Eq(s => s.Id, id);
-                var result = await Collection.DeleteOneAsync(filter);
-                return result.DeletedCount > 0;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                return false;
-            }
+            throw new NotImplementedException();
         }
 
-        public async Task<List<Review>> GetAllReviews()
-        {
+        //public async Task<bool> DeleteReview(string id)
+        ////{
+        ////    try
+        ////    {
+        ////        var filter = Builders<Review>.Filter.Eq(s => s.Id, id);
+        ////        var result = await Collection.DeleteOneAsync(filter);
+        ////        return result.DeletedCount > 0;
+        ////    }
+        ////    catch (Exception ex)
+        ////    {
+        ////        Console.WriteLine($"Error: {ex.Message}");
+        ////        return false;
+        ////    }
+        //}
 
-
-            var pipeline = new BsonDocument[]
-              {
-                    // Realizar un join con la colección de películas
-                    new BsonDocument("$lookup", new BsonDocument
-                    {
-                        { "from", "Movies" }, // Nombre de la colección a unir
-                        { "localField", "MovieId" }, // Campo local para hacer coincidir
-                        { "foreignField", "_id" }, // Campo en la colección de películas para hacer coincidir
-                        { "as", "movieTitle" } // Nombre del campo en el resultado
-                    }),
-
-                    // Realizar un join con la colección de usuarios
-                    new BsonDocument("$lookup", new BsonDocument
-                    {
-                        { "from", "Users" }, // Nombre de la colección a unir
-                        { "localField", "UserId" }, // Campo local para hacer coincidir
-                        { "foreignField", "_id" }, // Campo en la colección de usuarios para hacer coincidir
-                        { "as", "username" } // Nombre del campo en el resultado
-                    }),
-
-                    // Proyectar los campos deseados
-                    new BsonDocument("$project", new BsonDocument
-                    {
-                        { "_id", 1 }, // Incluir el ID de la reseña
-                        { "ReviewContent", 1 }, // Incluir el contenido de la reseña
-                        { "movie.Title", 1 }, // Incluir el título de la película
-                        { "user.Username", 1 } // Incluir el nombre de usuario
-                    })
-              };
-            var result = await Collection.Aggregate<Review>(pipeline).ToListAsync();
-            return result;
-        }
-
-        public async Task<List<Review>> GetReviewById(string id)
-        {
-            return await Collection.FindAsync(new BsonDocument { { "_id", new ObjectId(id) } }).Result.ToListAsync();
-
-        }
-
-        public async Task InsertReview(Review review)
+        public async Task<object> GetAllReviews()
         {
 
-            await Collection.InsertOneAsync(review);
+            var result = from docA in Collection.AsQueryable()
+                         join docB in usersCollection.AsQueryable()
+                         on docA["UserId"] equals docB["UserId"]
+                         //join docC in moviesCollection.AsQueryable()
+                         //on docA["MovieId"] equals docC["MovieId"]
+                         select new
+                         {
 
+                             username = docB["username"],
+                             score = docA["score"],
+                             reviewcontent = docA["reviewContent"],
+                             datedcreated = docA["datedCreated"].ToString(),
+                             //movietitle = docC["movieTitle"]
+                         };
+
+            return  result.ToList<object>();
         }
+
+        public Task<List<Review>> GetReviewById(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task InsertReview(Review Review)
+        {
+            throw new NotImplementedException();
+        }
+
+ 
     }
 }

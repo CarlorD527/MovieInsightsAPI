@@ -1,0 +1,26 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    container_name: MovieInsightMongoDBContainer
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: MovieDB
+    networks:
+      - MovieInsightNetwork
+
+  webapi:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: MovieInsightAPIContainer
+    ports:
+      - "5001:80"
+    networks:
+      - MovieInsightNetwork
+    depends_on:
+      - mongo
+
+networks:
+  MovieInsightNetwork: 

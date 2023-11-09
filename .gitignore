@@ -121,3 +121,6 @@ _ReSharper.*
 # Archivos de registro y datos de usuario
 *.log
 *.userprefs
+
+# MongoDB volume data
+mongo-data/

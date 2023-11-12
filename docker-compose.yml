@@ -8,7 +8,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: MovieDB
     volumes:
-      - ./mongo-data:/data/db
+      - movie-insight-db:/data/db
     networks:
       - MovieInsightNetwork
 
@@ -26,3 +26,6 @@ services:
 
 networks:
   MovieInsightNetwork:
+
+volumes:
+  movie-insight-db:

@@ -122,5 +122,4 @@ _ReSharper.*
 *.log
 *.userprefs
 
-# MongoDB volume data
-mongo-data/
+
